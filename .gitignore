@@ -8,3 +8,4 @@
 */shared/plotter.h
 */shared/protocol.h
 cam-detection-test/yolo*
+cam-recorder/recordings
