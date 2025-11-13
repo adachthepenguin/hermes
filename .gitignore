@@ -1,0 +1,10 @@
+.DS_Store
+.vscode
+**/__pycache__
+*/build/
+*/output/
+*/shared/address.h
+*/shared/helpers.h
+*/shared/plotter.h
+*/shared/protocol.h
+cam-detection-test/yolo*
