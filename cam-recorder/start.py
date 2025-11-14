@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from picamera2 import Picamera2
+from picamera2 import Picamera2, Transform
 from picamera2.encoders import H264Encoder
 from picamera2.outputs import FfmpegOutput
 
@@ -19,27 +19,29 @@ def main():
 
     print(f"Saving video to: {output_file}")
 
-    # Initialize camera
     picam2 = Picamera2()
+
+    # Apply 180-degree rotation here
     video_config = picam2.create_video_configuration(
         main={"size": (1920, 1080)},
-        controls={"FrameDurationLimits": (33333, 33333)}  # 30 FPS
+        controls={"FrameDurationLimits": (33333, 33333)},  # 30 FPS
+        transform=Transform(rotation=180)
     )
+
     picam2.configure(video_config)
 
-    # Set up encoder and output
     encoder = H264Encoder(bitrate=8_000_000)
     output = FfmpegOutput(str(output_file))
 
-    # Start recording
     picam2.start()
     picam2.start_recording(encoder, output)
+
     print("Recording started. Press Ctrl+C to stop.")
 
     try:
         while True:
             time.sleep(1)
-            os.sync()  # flush data to disk
+            os.sync()
     except KeyboardInterrupt:
         print("\nStopping recording...")
     finally:
