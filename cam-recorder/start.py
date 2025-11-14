@@ -6,6 +6,7 @@ from pathlib import Path
 from picamera2 import Picamera2
 from picamera2.encoders import H264Encoder
 from picamera2.outputs import FfmpegOutput
+from libcamera import Transform   # <-- this is the correct import on your setup
 
 def main():
     # Create "recordings" directory next to this script
@@ -21,10 +22,14 @@ def main():
 
     # Initialize camera
     picam2 = Picamera2()
+
+    # Apply horizontal + vertical flip (equivalent to 180° rotation)
     video_config = picam2.create_video_configuration(
         main={"size": (1920, 1080)},
-        controls={"FrameDurationLimits": (33333, 33333)}  # 30 FPS
+        controls={"FrameDurationLimits": (33333, 33333)},  # ~30 FPS
+        transform=Transform(hflip=1, vflip=1)
     )
+
     picam2.configure(video_config)
 
     # Set up encoder and output
