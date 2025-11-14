@@ -22,19 +22,11 @@ def main():
 
     picam2 = Picamera2()
 
-<<<<<<< HEAD
     # Apply horizontal + vertical flip (equivalent to 180° rotation)
     video_config = picam2.create_video_configuration(
         main={"size": (1920, 1080)},
         controls={"FrameDurationLimits": (33333, 33333)},  # ~30 FPS
         transform=Transform(hflip=1, vflip=1)
-=======
-    # Apply 180-degree rotation here
-    video_config = picam2.create_video_configuration(
-        main={"size": (1920, 1080)},
-        controls={"FrameDurationLimits": (33333, 33333)},  # 30 FPS
-        transform=Transform(rotation=180)
->>>>>>> 7b56793a673bdfd1f300356335ae8a9ef2f8e814
     )
 
     picam2.configure(video_config)
